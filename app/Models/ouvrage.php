@@ -5,8 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class usagers extends Model
+class Ouvrage extends Model
 {
-    protected $fillable = ['nom', "prenom", "email", "identifiant", "passe", "blocage"];
     use HasFactory;
+
+    protected $fillable = ['titre', 'auteur', 'editeur', 'pages', 'date_publication', 'isbn', 'image'];
 }
