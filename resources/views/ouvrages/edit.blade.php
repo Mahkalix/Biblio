@@ -13,16 +13,16 @@
                     <h2 class="text-lg font-medium text-gray-900">Modifier l'Ouvrage</h2>
 
                     @if ($errors->any())
-                        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-6" role="alert">
-                            <ul>
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
+                    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-6" role="alert">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
                     @endif
 
-                    <form action="{{ route('ouvrages.update', $ouvrage->id) }}" method="POST">
+                    <form action="{{ route('ouvrages.update', $ouvrage->id) }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
 
@@ -57,9 +57,16 @@
                         </div>
 
                         <div class="mb-4">
-                        <label for="image" class="block text-gray-700">Image</label>
-                        <input type="file" id="image" name="image" class="block w-full mt-1 rounded-md">
-                    </div>
+                            <label for="image" class="block text-gray-700">Image</label>
+                            <input type="file" id="image" name="image" class="block w-full mt-1 rounded-md" accept="image/*">
+                        </div>
+
+                        @if ($ouvrage->image && file_exists(public_path('images/' . $ouvrage->image)))
+                        <div class="mb-4">
+                            <label class="block text-gray-700">Image actuelle :</label>
+                            <img src="{{ asset('images/' . $ouvrage->image) }}" alt="Image de couverture" style="max-width: 200px; margin-top: 10px;">
+                        </div>
+                        @endif
 
                         <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-md">Mettre à jour</button>
                     </form>

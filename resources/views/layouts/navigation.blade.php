@@ -19,8 +19,8 @@
                     <x-nav-link :href="route('usagers.index')" :active="request()->routeIs('usagers.*')">
                         {{ __('Usagers') }}
                     </x-nav-link>
-                     <!-- Lien vers Ouvrages -->
-                     <x-nav-link :href="route('ouvrages.index')" :active="request()->routeIs('ouvrages.*')">
+                    <!-- Lien vers Ouvrages -->
+                    <x-nav-link :href="route('ouvrages.index')" :active="request()->routeIs('ouvrages.*')">
                         {{ __('Ouvrages') }}
                     </x-nav-link>
                 </div>
@@ -51,7 +51,7 @@
                             @csrf
 
                             <x-dropdown-link :href="route('logout')"
-                                    onclick="event.preventDefault();
+                                onclick="event.preventDefault();
                                                 this.closest('form').submit();">
                                 {{ __('Log Out') }}
                             </x-dropdown-link>
@@ -107,7 +107,7 @@
                     @csrf
 
                     <x-responsive-nav-link :href="route('logout')"
-                            onclick="event.preventDefault();
+                        onclick="event.preventDefault();
                                         this.closest('form').submit();">
                         {{ __('Log Out') }}
                     </x-responsive-nav-link>

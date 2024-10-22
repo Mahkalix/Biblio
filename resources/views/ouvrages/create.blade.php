@@ -13,16 +13,16 @@
                     <h2 class="text-lg font-medium text-gray-900">Ajouter un Ouvrage</h2>
 
                     @if ($errors->any())
-                        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-6" role="alert">
-                            <ul>
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
+                    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-6" role="alert">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
                     @endif
 
-                    <form action="{{ route('ouvrages.store') }}" method="POST">
+                    <form action="{{ route('ouvrages.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="mb-4">
                             <label for="titre" class="block text-gray-700">Titre</label>
@@ -56,12 +56,19 @@
 
                         <div class="mb-4">
                             <label for="image" class="block text-gray-700">Image</label>
-                            <input type="file" id="image" name="image" class="block w-full mt-1 rounded-md" value="{{ old('image') }}">
+                            <input type="file" id="image" name="image" class="block w-full mt-1 rounded-md" accept="image/*">
                         </div>
 
                         <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-md">Créer</button>
                     </form>
+                </div>
+            </div>
+            <div class="py-12">
 
+                <div class="max-w-7xl mx-auto">
+                    <a class="inline-flex items-right px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest" href="{{ route('ouvrages.index') }}">
+                        Retour
+                    </a>
                 </div>
             </div>
         </div>
