@@ -1,41 +1,42 @@
-
-
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <title>Bibliothèque MMI</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+	<title>Bibliothèque MMI</title>
 </head>
+
 <body class="font-sans antialiased dark:bg-black dark:text-white/50 h-screen m-0">
-                <header class="flex items-center gap-2 py-10" style=" padding-right: 50px; height: 10vh; background-color:#ff9320">
+	<header class="flex items-center gap-2 py-10" style=" padding-right: 50px; height: 10vh; background-color:white; box-shadow: 0px 3px 24px -5px rgba(0,0,0,0.12);
+">
 
-                    @if (Route::has('login'))
-                        <nav class="-mx-3 flex flex-1 justify-end">
-                            @auth
-                                <a href="{{ url('/dashboard') }}" class="rounded-md px-3 py-2 text-white ring-1 ring-transparent transition hover:text-white/70 focus:outline-none focus-visible:ring-[#ff9320] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white">
-                                    Dashboard
-                                </a>
-                            @else
-                                <a href="{{ route('login') }}" class="rounded-md px-3 py-2 text-white ring-1 ring-transparent transition hover:text-white/70 focus:outline-none focus-visible:ring-[#ff9320] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white">
-                                    Se connecter
-                                </a>
-                                @if (Route::has('register'))
-                                    <a href="{{ route('register') }}" class="rounded-md px-3 py-2 text-white ring-1 ring-transparent transition hover:text-white/70 focus:outline-none focus-visible:ring-[#ff9320] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white">
-                                        S'inscrire 
-                                    </a>
-                                @endif
-                            @endauth
-                        </nav>
-                    @endif
-                </header>
+		@if (Route::has('login'))
+		<nav class=" -mx-3 flex flex-1 justify-end" style="gap:20px">
+			@auth
+			<a href="{{ url('/dashboard') }}" style="color: black" class="rounded-md px-3 py-2 text-white ring-1 ring-transparent transition hover:text-white/70 focus:outline-none focus-visible:ring-[#ff9320] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white">
+				Dashboard
+			</a>
+			@else
+			<a href="{{ route('login') }}" class="px-4 py-2 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest" style="background-color:#1f2937;">
+				Se connecter
+			</a>
+			@if (Route::has('register'))
+			<a href="{{ route('register') }}" class="px-4 py-2 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest" style="background-color:#1f2937;">
+				S'inscrire
+			</a>
+			@endif
+			@endauth
+		</nav>
+		@endif
+	</header>
 
-                <main class=" flex-col w-full h-screen flex items-center justify-center" style="height: 80vh;">
-                <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 width="300px" viewBox="0 0 256 256" enable-background="new 0 0 256 256" xml:space="preserve">
-<path fill="none" opacity="1.000000" stroke="none" 
-	d="
+	<main class=" flex-col w-full h-screen flex items-center justify-center" style="height: 80vh;">
+		<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+			width="300px" viewBox="0 0 256 256" enable-background="new 0 0 256 256" xml:space="preserve">
+			<path fill="none" opacity="1.000000" stroke="none"
+				d="
 M142.000000,257.000000 
 	C94.666672,257.000000 47.833340,257.000000 1.000006,257.000000 
 	C1.000004,171.666672 1.000004,86.333351 1.000002,1.000018 
@@ -66,9 +67,9 @@ M110.647911,215.903900
 	C65.291260,205.099243 77.294205,204.891296 89.290886,205.088684 
 	C91.803619,205.130035 94.553543,205.835327 96.747345,207.045013 
 	C101.336052,209.575272 105.627052,212.645432 110.647911,215.903900 
-z"/>
-<path fill="#FF8800" opacity="1.000000" stroke="none" 
-	d="
+z" />
+			<path fill="#FF8800" opacity="1.000000" stroke="none"
+				d="
 M110.344116,215.698883 
 	C105.627052,212.645432 101.336052,209.575272 96.747345,207.045013 
 	C94.553543,205.835327 91.803619,205.130035 89.290886,205.088684 
@@ -114,9 +115,9 @@ M140.999863,146.500000
 	C170.695190,55.344704 164.772003,56.074203 159.519196,58.035904 
 	C146.845078,62.769127 141.171875,72.874573 141.048492,86.053024 
 	C140.862991,105.867104 140.999969,125.684189 140.999863,146.500000 
-z"/>
-<path fill="none" opacity="1.000000" stroke="none" 
-	d="
+z" />
+			<path fill="none" opacity="1.000000" stroke="none"
+				d="
 M112.305168,68.847000 
 	C115.914650,75.179512 117.045898,81.708221 117.031120,88.589363 
 	C116.961334,121.081764 117.000084,153.574402 117.000130,186.066956 
@@ -128,9 +129,9 @@ M112.305168,68.847000
 	C58.797977,55.918568 72.023361,55.768135 85.241875,56.003628 
 	C89.617340,56.081585 94.502052,56.123421 98.212746,58.021637 
 	C103.295029,60.621498 107.479630,64.976189 112.305168,68.847000 
-z"/>
-<path fill="none" opacity="1.000000" stroke="none" 
-	d="
+z" />
+			<path fill="none" opacity="1.000000" stroke="none"
+				d="
 M140.999863,146.000000 
 	C140.999969,125.684189 140.862991,105.867104 141.048492,86.053024 
 	C141.171875,72.874573 146.845078,62.769127 159.519196,58.035904 
@@ -141,16 +142,17 @@ M140.999863,146.000000
 	C169.612473,181.631104 161.464447,183.156204 153.595871,185.205765 
 	C149.373016,186.305710 145.699371,189.514191 140.999863,192.218994 
 	C140.999863,176.605820 140.999863,161.552902 140.999863,146.000000 
-z"/>
-</svg>
-<p>Bibliothèque MMI</p>
-                </main>
+z" />
+		</svg>
+		<p style="color: #1f2937,">Bibliothèque MMI</p>
+	</main>
 
-                <footer class=" text-center text-sm text-white" style="display: flex; justify-content:center;align-items:center; font-weight: 600;height: 10vh;background-color:#ff9320;margin:0px;padding: 0px;">
-                  <p> Bibliothèque en ligne - Tous droits réservés</p>
-                </footer>
-            </div>
-        </div>
-    </div>
+	<footer class=" text-center text-sm text-#1f2937" style="box-shadow: 0px 0px 24px -5px rgba(0,0,0,0.12); display: flex; justify-content:center;align-items:center; font-weight: 500;height: 10vh; background-color:white;margin:0px;padding: 0px;">
+		<p> Tous droits réservés</p>
+	</footer>
+	</div>
+	</div>
+	</div>
 </body>
+
 </html>

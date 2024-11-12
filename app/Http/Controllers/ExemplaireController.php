@@ -20,23 +20,28 @@ class ExemplaireController extends Controller
     {
         $ouvrage = Ouvrage::findOrFail($ouvrageId);
         $etats = config('constantes.ouvrages_etats');
-
         return view('exemplaires.create', compact('ouvrage', 'etats'));
     }
 
     public function store(Request $request, $ouvrageId)
     {
-        $request->validate([
+        // Validate the form input
+        $validatedData = $request->validate([
             'etat' => 'required',
-            'disponible' => 'boolean',
-            'date_retour_souhaitee' => 'nullable|date',
+            'date' => 'required|date',
+            'ouvrage_id' => '|exists:ouvrages,id',
         ]);
 
-        Exemplaire::create(array_merge($request->all(), ['ouvrage_id' => $ouvrageId]));
+        $exemplaire = new Exemplaire();
+        $exemplaire->ouvrage_id = $ouvrageId;
+        $exemplaire->etat = $validatedData['etat'];
+        $exemplaire->date = $validatedData['date'];
+        $exemplaire->save();
 
-        return redirect()->route('ouvrages.exemplaires.index', $ouvrageId)
-            ->with('success', 'Exemplaire ajouté avec succès.');
+        return redirect()->route('ouvrages.exemplaires.index', ['ouvrage' => $ouvrageId])
+            ->with('status', 'Exemplaire ajouté avec succès!');
     }
+
 
     public function show($ouvrageId, Exemplaire $exemplaire)
     {
@@ -71,5 +76,16 @@ class ExemplaireController extends Controller
 
         return redirect()->route('ouvrages.exemplaires.index', $ouvrageId)
             ->with('success', 'Exemplaire supprimé avec succès.');
+    }
+
+
+    public function toggleVisibility(Ouvrage $ouvrage, Exemplaire $exemplaire)
+    {
+        // Basculer la visibilité
+        $exemplaire->visible = !$exemplaire->visible;
+        $exemplaire->save();
+
+        // Rediriger vers la liste des exemplaires
+        return redirect()->route('ouvrages.exemplaires.index', $ouvrage->id);
     }
 }

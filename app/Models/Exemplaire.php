@@ -9,8 +9,7 @@ class Exemplaire extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['ouvrage_id', 'etat', 'disponible', 'date_retour_souhaitee'];
-
+    protected $fillable = ['etat', 'date', 'ouvrage_id'];
 
     public function ouvrage()
     {

@@ -20,15 +20,27 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
     Route::resource('usagers', ControleurUsagers::class);
     Route::resource('ouvrages', OuvrageController::class);
-    Route::resource('ouvrages.exemplaires', ExemplaireController::class);
-    Route::get('ouvrages/{id}/exemplaires', [ExemplaireController::class, 'index'])->name('ouvrages.exemplaires');
-    Route::get('ouvrages/{id}/exemplaires/create', [ExemplaireController::class, 'create'])->name('exemplaires.create');
-    Route::post('exemplaires', [ExemplaireController::class, 'store'])->name('exemplaires.store');
-    Route::get('exemplaires/{exemplaire}/edit', [ExemplaireController::class, 'edit'])->name('exemplaires.edit');
-    Route::put('exemplaires/{exemplaire}', [ExemplaireController::class, 'update'])->name('exemplaires.update');
-    Route::delete('exemplaires/{exemplaire}', [ExemplaireController::class, 'destroy'])->name('exemplaires.destroy');
+
+    // Other routes...
+
+    Route::middleware('auth')->group(function () {
+        // Other routes...
+
+        // Nested exemplaires under ouvrages
+        Route::get('ouvrages/{ouvrage}/exemplaires', [ExemplaireController::class, 'index'])->name('ouvrages.exemplaires.index');
+        Route::get('ouvrages/{ouvrage}/exemplaires/create', [ExemplaireController::class, 'create'])->name('ouvrages.exemplaires.create');
+        Route::post('ouvrages/{ouvrage}/exemplaires', [ExemplaireController::class, 'store'])->name('ouvrages.exemplaires.store');
+        Route::patch('ouvrages/{ouvrage}/exemplaires/{exemplaire}/toggle-visibility', [ExemplaireController::class, 'toggleVisibility'])->name('ouvrages.exemplaires.toggleVisibility');
+
+
+        Route::get('ouvrages/{ouvrage}/exemplaires/{exemplaire}/edit', [ExemplaireController::class, 'edit'])->name('ouvrages.exemplaires.edit');
+        Route::put('ouvrages/{ouvrage}/exemplaires/{exemplaire}', [ExemplaireController::class, 'update'])->name('ouvrages.exemplaires.update');
+        Route::delete('ouvrages/{ouvrage}/exemplaires/{exemplaire}', [ExemplaireController::class, 'destroy'])->name('ouvrages.exemplaires.destroy');
+    });
 });
+
 
 require __DIR__ . '/auth.php';
