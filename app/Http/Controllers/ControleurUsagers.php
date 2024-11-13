@@ -14,7 +14,7 @@ class ControleurUsagers extends Controller
         $usagers = Usagers::orderBy('nom', 'desc')->paginate(5);
         return view('usagers.index', compact('usagers'));
     }
-    
+
     // Show form to create a new usager
     public function create()
     {

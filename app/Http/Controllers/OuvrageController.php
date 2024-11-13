@@ -93,4 +93,10 @@ class OuvrageController extends Controller
         // Update the 'Ouvrage' record with the image name
         $ouvrage->update(['image' => $nomDeFichier]);
     }
+
+    public function show($id)
+    {
+        $ouvrage = Ouvrage::findOrFail($id);
+        return view('bibliotheque.details', compact('ouvrage'));
+    }
 }

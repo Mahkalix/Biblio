@@ -144,7 +144,11 @@ M140.999863,146.000000
 	C140.999863,176.605820 140.999863,161.552902 140.999863,146.000000 
 z" />
 		</svg>
-		<p style="color: #1f2937,">Bibliothèque MMI</p>
+		<p style="color: #1f2937; padding-bottom:20px">Bibliothèque MMI</p>
+
+
+
+
 	</main>
 
 	<footer class=" text-center text-sm text-#1f2937" style="box-shadow: 0px 0px 24px -5px rgba(0,0,0,0.12); display: flex; justify-content:center;align-items:center; font-weight: 500;height: 10vh; background-color:white;margin:0px;padding: 0px;">

@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ControleurUsagers;
 use App\Http\Controllers\OuvrageController;
 use App\Http\Controllers\ExemplaireController;
+use App\Http\Controllers\ControleurRecherche;
 
 
 
@@ -35,10 +36,8 @@ Route::middleware('auth')->group(function () {
         Route::post('ouvrages/{ouvrage}/exemplaires', [ExemplaireController::class, 'store'])->name('ouvrages.exemplaires.store');
         Route::patch('ouvrages/{ouvrage}/exemplaires/{exemplaire}/toggle-visibility', [ExemplaireController::class, 'toggleVisibility'])->name('ouvrages.exemplaires.toggleVisibility');
 
-
-        Route::get('ouvrages/{ouvrage}/exemplaires/{exemplaire}/edit', [ExemplaireController::class, 'edit'])->name('ouvrages.exemplaires.edit');
-        Route::put('ouvrages/{ouvrage}/exemplaires/{exemplaire}', [ExemplaireController::class, 'update'])->name('ouvrages.exemplaires.update');
-        Route::delete('ouvrages/{ouvrage}/exemplaires/{exemplaire}', [ExemplaireController::class, 'destroy'])->name('ouvrages.exemplaires.destroy');
+        Route::post('/bibliotheque/recherche', [ControleurRecherche::class, 'rechercher'])->name('bibliotheque.rechercher');
+        Route::post('/usager/recherche', [ControleurRecherche::class, 'rechercherUsager'])->name('usager.rechercher');
     });
 });
 
