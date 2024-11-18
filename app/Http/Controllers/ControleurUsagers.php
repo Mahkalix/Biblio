@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Usagers;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash; // For password hashing
+use Illuminate\Support\Facades\Hash;
 
 class ControleurUsagers extends Controller
 {
@@ -60,30 +60,43 @@ class ControleurUsagers extends Controller
     }
 
     // Update an existing usager
+
+
+
+
     public function update(Request $request, Usagers $usager)
     {
-        $request->validate([
-            'nom' => 'required',
-            'prenom' => 'required',
-            'email' => 'required|email|unique:usagers,email,' . $usager->id, // Unique, but ignore current usager's email
-            'identifiant' => 'required|unique:usagers,identifiant,' . $usager->id, // Unique, but ignore current usager's identifiant
-            'passe' => 'nullable|min:8', // Password is optional, only update if provided
+        // Validation des données
+        $validatedData = $request->validate([
+            'nom' => 'required|string|max:255',
+            'prenom' => 'required|string|max:255',
+            'email' => 'required|email|unique:usagers,email,' . $usager->id,
+            'identifiant' => 'required|unique:usagers,identifiant,' . $usager->id,
+            'passe' => 'nullable|min:8', // Le mot de passe est optionnel
             'blocage' => 'required|boolean',
         ]);
 
-        // Only hash password if it's updated
-        $usager->update([
-            'nom' => $request->nom,
-            'prenom' => $request->prenom,
-            'email' => $request->email,
-            'identifiant' => $request->identifiant,
-            'passe' => $request->passe ? Hash::make($request->passe) : $usager->passe,
-            'blocage' => $request->blocage,
-        ]);
+        // Mise à jour des champs
+        $usager->nom = $validatedData['nom'];
+        $usager->prenom = $validatedData['prenom'];
+        $usager->email = $validatedData['email'];
+        $usager->identifiant = $validatedData['identifiant'];
 
-        // Redirect to the index page with a success message
-        return redirect()->route('usagers.index')->with('success', 'Compte usager sauvegardé.');
+        // Si un mot de passe est fourni, on le hache et on le met à jour
+        if (!empty($validatedData['passe'])) {
+            $usager->passe = Hash::make($validatedData['passe']);
+        }
+
+        $usager->blocage = $validatedData['blocage'];
+
+        // Sauvegarder les modifications
+        $usager->save();
+
+        // Rediriger avec un message de succès
+        return redirect()->route('usagers.index')->with('success', 'Usager mis à jour avec succès.');
     }
+
+
 
     // Delete a usager
     public function destroy(Usagers $usager)

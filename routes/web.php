@@ -38,6 +38,7 @@ Route::middleware('auth')->group(function () {
 
 
         Route::post('/usagers/rechercher', [ControleurRecherche::class, 'rechercherUsager'])->name('usager.rechercher');
+
         Route::post('/biblioteque/rechercher', [ControleurRecherche::class, 'rechercher'])->name('bibliotheque.rechercher');
     });
 });
