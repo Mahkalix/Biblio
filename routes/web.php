@@ -31,15 +31,16 @@ Route::middleware('auth')->group(function () {
         // Other routes...
 
         // Nested exemplaires under ouvrages
-        Route::get('ouvrages/{ouvrage}/exemplaires', [ExemplaireController::class, 'index'])->name('ouvrages.exemplaires.index');
-        Route::get('ouvrages/{ouvrage}/exemplaires/create', [ExemplaireController::class, 'create'])->name('ouvrages.exemplaires.create');
-        Route::post('ouvrages/{ouvrage}/exemplaires', [ExemplaireController::class, 'store'])->name('ouvrages.exemplaires.store');
-        Route::patch('ouvrages/{ouvrage}/exemplaires/{exemplaire}/toggle-visibility', [ExemplaireController::class, 'toggleVisibility'])->name('ouvrages.exemplaires.toggleVisibility');
+        Route::prefix('ouvrages/{ouvrage}/exemplaires')->name('ouvrages.exemplaires.')->group(function () {
+            Route::get('/', [ExemplaireController::class, 'index'])->name('index');
+            Route::get('/create', [ExemplaireController::class, 'create'])->name('create');
+            Route::post('/', [ExemplaireController::class, 'store'])->name('store');
+            Route::patch('/{exemplaire}/toggle-visibility', [ExemplaireController::class, 'toggleVisibility'])->name('toggleVisibility');
+        });
 
-
-        Route::post('/usagers/rechercher', [ControleurRecherche::class, 'rechercherUsager'])->name('usager.rechercher');
-
-        Route::post('/biblioteque/rechercher', [ControleurRecherche::class, 'rechercher'])->name('bibliotheque.rechercher');
+        Route::post('/usager', [ControleurRecherche::class, 'rechercherUsager'])->name('usager.rechercher');
+        Route::get('/recherche', [ControleurRecherche::class, 'index'])->name('recherche.index');
+        Route::post('/ouvrage', [ControleurRecherche::class, 'rechercherOuvrage'])->name('bibliotheque.rechercher');
     });
 });
 
