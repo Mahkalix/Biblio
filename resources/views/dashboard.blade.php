@@ -19,7 +19,7 @@
                     <div class="flex items-center space-x-4">
                         <input
                             type="text"
-                            id="searchQuery"
+                            id="searchQueryUsagers"
                             name="query"
                             placeholder="Rechercher un usager (prénom, nom)"
                             required
@@ -40,57 +40,73 @@
 
                 <!-- Script AJAX pour la recherche d'usagers -->
                 <script>
-                    document.getElementById('searchFormUsagers').addEventListener('submit', function(e) {
+                    document.getElementById('searchFormUsagers').addEventListener('submit', async function(e) {
                         e.preventDefault();
 
-                        const query = document.getElementById('searchQuery').value;
+                        const query = document.getElementById('searchQueryUsagers').value.trim();
                         const token = document.querySelector('input[name="_token"]').value;
+                        const resultsContainer = document.getElementById('searchResultsUsagers');
 
-                        fetch(`{{ route('usager.rechercher') }}`, {
+                        // Vérifier si le champ de recherche est vide
+                        if (!query) {
+                            resultsContainer.innerHTML = '<p class="text-red-500">Veuillez entrer un usager</p>';
+                            return;
+                        }
+
+                        // Afficher un message de chargement
+                        resultsContainer.innerHTML = '<p class="text-gray-600">Recherche en cours...</p>';
+
+                        try {
+                            const response = await fetch(`{{ route('usager.rechercher') }}`, {
                                 method: 'POST',
                                 headers: {
                                     'Content-Type': 'application/json',
                                     'X-CSRF-TOKEN': token
                                 },
                                 body: JSON.stringify({
-                                    query: query
+                                    query
                                 })
-                            })
-                            .then(response => response.json())
-                            .then(data => {
-                                let resultsContainer = document.getElementById('searchResultsUsagers');
-                                resultsContainer.innerHTML = '';
+                            });
 
-                                if (data.length === 0) {
-                                    resultsContainer.innerHTML = '<p class="text-gray-600">Aucun usager trouvé</p>';
-                                } else {
-                                    let list = '<ul class="space-y-4">';
-                                    data.forEach(usager => {
-                                        list += `
-                            <li class="border-b border-gray-200 pb-2">
-                                <strong>${usager.prenom} ${usager.nom}</strong>
-                                <br>
-                                <span class="text-gray-600">${usager.email}</span>
-                                <br>
-                                <a href="/usagers/${usager.id}" class="text-orange-500 hover:underline">Voir détails</a>
-                            </li>`;
-                                    });
-                                    list += '</ul>';
-                                    resultsContainer.innerHTML = list;
-                                }
-                            })
-                            .catch(error => console.error('Erreur:', error));
+                            // Vérification si la requête a échoué
+                            if (!response.ok) throw new Error('Erreur réseau ou serveur');
+
+                            const data = await response.json();
+                            resultsContainer.innerHTML = ''; // Réinitialiser le conteneur de résultats
+
+                            if (data.length === 0) {
+                                resultsContainer.innerHTML = '<p class="text-gray-600">Aucun usager trouvé</p>';
+                            } else {
+                                let list = '<ul class="space-y-4">';
+                                data.forEach(usager => {
+                                    list += `
+                        <li class="border-b border-gray-200 pb-2">
+                            <strong>${usager.prenom} ${usager.nom}</strong>
+                            <br>
+                            <span class="text-gray-600">${usager.email}</span>
+                            <br>
+                            <a href="/usagers/${usager.id}" class="text-orange-500 hover:underline">Voir détails</a>
+                        </li>`;
+                                });
+                                list += '</ul>';
+                                resultsContainer.innerHTML = list;
+                            }
+                        } catch (error) {
+                            console.error('Erreur:', error);
+                            resultsContainer.innerHTML = '<p class="text-red-500">Une erreur est survenue. Veuillez réessayer plus tard.</p>';
+                        }
                     });
                 </script>
 
 
-                <!-- Formulaire de recherche -->
-                <form id="searchForm" class="mb-6">
+
+                <!-- Formulaire de recherche Ouvrages-->
+                <form id="searchFormOuvrages" class="mb-6">
                     @csrf
                     <div class="flex items-center space-x-4">
                         <input
                             type="text"
-                            id="searchQuery"
+                            id="searchQueryOuvrages"
                             name="query"
                             placeholder="Rechercher un ouvrage"
                             required
@@ -102,52 +118,68 @@
                         </button>
                     </div>
                 </form>
-                <!-- Résultats de recherche des usagers -->
-                <div id="searchResults" class="mt-6">
+                <!-- Résultats de recherche des Ouvrages -->
+                <div id="searchResultsOuvrages" class="mt-6">
                     <!-- Les résultats seront injectés ici -->
                 </div>
 
+                <!-- Ouvrages -->
                 <script>
-                    document.getElementById('searchForm').addEventListener('submit', function(e) {
+                    document.getElementById('searchFormOuvrages').addEventListener('submit', async function(e) {
                         e.preventDefault();
 
-                        const query = document.getElementById('searchQuery').value;
+                        const query = document.getElementById('searchQueryOuvrages').value.trim();
                         const token = document.querySelector('input[name="_token"]').value;
+                        const resultsContainer = document.getElementById('searchResultsOuvrages');
 
-                        fetch(`{{ route('bibliotheque.rechercher') }}`, {
+                        // Vérifier si le champ de recherche est vide
+                        if (!query) {
+                            resultsContainer.innerHTML = '<p class="text-red-500">Veuillez entrer un ouvrage</p>';
+                            return;
+                        }
+
+                        // Afficher un spinner pendant le chargement
+                        resultsContainer.innerHTML = '<p class="text-gray-600">Recherche en cours...</p>';
+
+                        try {
+                            const response = await fetch(`{{ route('bibliotheque.rechercher') }}`, {
                                 method: 'POST',
                                 headers: {
                                     'Content-Type': 'application/json',
                                     'X-CSRF-TOKEN': token
                                 },
                                 body: JSON.stringify({
-                                    query: query
+                                    query
                                 })
-                            })
-                            .then(response => response.json())
-                            .then(data => {
-                                let resultsContainer = document.getElementById('searchResults');
-                                resultsContainer.innerHTML = '';
+                            });
 
-                                if (data.length === 0) {
-                                    resultsContainer.innerHTML = '<p class="text-gray-600">Aucun ouvrage trouvé</p>';
-                                } else {
-                                    let list = '<ul class="space-y-4">';
-                                    data.forEach(ouvrage => {
-                                        list += `
-                                        <li class="border-b border-gray-200 pb-2">
-                                            <strong>${ouvrage.titre}</strong> par ${ouvrage.auteur}
-                                            <br>
-                                            <a href="/ouvrages/${ouvrage.id}" class="text-orange-500 hover:underline">Voir détails</a>
-                                        </li>`;
-                                    });
-                                    list += '</ul>';
-                                    resultsContainer.innerHTML = list;
-                                }
-                            })
-                            .catch(error => console.error('Erreur:', error));
+                            if (!response.ok) throw new Error('Erreur lors de la recherche');
+
+                            const data = await response.json();
+                            resultsContainer.innerHTML = ''; // Réinitialiser le conteneur de résultats
+
+                            if (data.length === 0) {
+                                resultsContainer.innerHTML = '<p class="text-gray-600">Aucun ouvrage trouvé</p>';
+                            } else {
+                                let list = '<ul class="space-y-4">';
+                                data.forEach(ouvrage => {
+                                    list += `
+                        <li class="border-b border-gray-200 pb-2">
+                            <strong>${ouvrage.titre}</strong> par ${ouvrage.auteur}
+                            <br>
+                            <a href="/ouvrages/${ouvrage.id}" class="text-orange-500 hover:underline">Voir détails</a>
+                        </li>`;
+                                });
+                                list += '</ul>';
+                                resultsContainer.innerHTML = list;
+                            }
+                        } catch (error) {
+                            console.error('Erreur:', error);
+                            resultsContainer.innerHTML = '<p class="text-red-500">Une erreur est survenue. Veuillez réessayer plus tard.</p>';
+                        }
                     });
                 </script>
+
             </div>
         </div>
     </div>

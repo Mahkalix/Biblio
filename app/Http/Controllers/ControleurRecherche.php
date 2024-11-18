@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use App\Models\Ouvrage;
 use App\Models\Usagers;
+
 
 class ControleurRecherche extends Controller
 {
@@ -15,17 +16,16 @@ class ControleurRecherche extends Controller
 
     public function rechercher(Request $request)
     {
-        // Récupérer le terme de recherche depuis le formulaire
-        $query = trim($request->input('query'));
+        // Valider la requête
+        $request->validate([
+            'query' => 'required|string|min:3'
+        ]);
 
-        // Si le champ de recherche est vide, retourner une liste vide
-        if (empty($query)) {
-            return response()->json([]);
-        }
+        // Récupérer le terme de recherche depuis la requête
+        $query = $request->input('query');
 
-        // Effectuer la recherche dans la table 'ouvrages'
-        $ouvrages = DB::table('ouvrages')
-            ->where('titre', 'like', '%' . $query . '%')
+        // Effectuer la recherche dans la table 'ouvrages' avec Eloquent
+        $ouvrages = Ouvrage::where('titre', 'like', '%' . $query . '%')
             ->orWhere('auteur', 'like', '%' . $query . '%')
             ->get();
 
@@ -33,21 +33,20 @@ class ControleurRecherche extends Controller
         return response()->json($ouvrages);
     }
 
-
     public function rechercherUsager(Request $request)
     {
         // Valider la requête pour s'assurer que le champ query est bien rempli
         $request->validate([
-            'query' => 'required|string|min:2'
+            'query' => 'required|string|min:3'
         ]);
 
         // Récupérer le terme de recherche depuis la requête
         $query = $request->input('query');
 
         // Effectuer une recherche dans les champs 'nom', 'prenom' et 'email'
-        $usagers = usagers::where('nom', 'like', "%{$query}%")
-            ->orWhere('prenom', 'like', "%{$query}%")
-            ->orWhere('email', 'like', "%{$query}%")
+        $usagers = Usagers::where('nom', 'like', '%' . $query . '%')
+            ->orWhere('prenom', 'like', '%' . $query . '%')
+            ->orWhere('email', 'like', '%' . $query . '%')
             ->get();
 
         // Retourner les résultats au format JSON

@@ -36,8 +36,9 @@ Route::middleware('auth')->group(function () {
         Route::post('ouvrages/{ouvrage}/exemplaires', [ExemplaireController::class, 'store'])->name('ouvrages.exemplaires.store');
         Route::patch('ouvrages/{ouvrage}/exemplaires/{exemplaire}/toggle-visibility', [ExemplaireController::class, 'toggleVisibility'])->name('ouvrages.exemplaires.toggleVisibility');
 
-        Route::post('/bibliotheque/recherche', [ControleurRecherche::class, 'rechercher'])->name('bibliotheque.rechercher');
-        Route::post('/usager/recherche', [ControleurRecherche::class, 'rechercherUsager'])->name('usager.rechercher');
+
+        Route::post('/usagers/rechercher', [ControleurRecherche::class, 'rechercherUsager'])->name('usager.rechercher');
+        Route::post('/biblioteque/rechercher', [ControleurRecherche::class, 'rechercher'])->name('bibliotheque.rechercher');
     });
 });
 
